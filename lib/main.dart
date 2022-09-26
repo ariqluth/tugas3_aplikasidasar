@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
                 " Reamur");
           }
           break;
+        default:
       }
     });
   }
