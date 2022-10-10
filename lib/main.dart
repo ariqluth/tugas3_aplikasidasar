@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:belajar3_flutter/convert.dart';
+import 'package:belajar3_flutter/dropdownsuhu.dart';
 import 'package:belajar3_flutter/inputsuhu.dart';
 import 'package:belajar3_flutter/resultsuhu.dart';
 import 'package:flutter/material.dart';
@@ -17,31 +18,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // this widget is the the root of your application
+  // text controller
   TextEditingController etInput = new TextEditingController();
-//  state
-  double inputUser = 0;
+  //variabel berubah
+  double _inputUser = 0;
   double _result = 0;
-  double kelvin = 0;
-  double farenheit = 0;
-  double reamur = 0;
   String selectedDropdown = "kelvin";
-
-  // buat dropdown
-  var listSatuanSuhu = ["kelvin", "reamur", "farenheit"];
+  //0 fixing error di layout
+  //buang expanded di result widget
+  //1 buat variabel dropdown
+  var listSatuanSuhu = ["kelvin", "reamur"];
   List<String> listHasil = [];
 
   _konversiSuhu() {
     setState(() {
       print(listHasil.length);
-      inputUser = double.parse(etInput.text);
+      _inputUser = double.parse(etInput.text);
       switch (selectedDropdown) {
         case "kelvin":
           {
             // statements;
-            _result = inputUser + 273;
+            _result = _inputUser + 273;
             listHasil.add("Konversi dari : " +
-                "$inputUser" +
+                "$_inputUser" +
                 " ke " +
                 "$_result" +
                 " Kelvin");
@@ -51,31 +50,19 @@ class _MyAppState extends State<MyApp> {
         case "reamur":
           {
             //statements;
-            _result = inputUser * 4 / 5;
+            _result = _inputUser * 4 / 5;
             listHasil.add("Konversi dari : " +
-                "$inputUser" +
+                "$_inputUser" +
                 " ke " +
                 "$_result" +
                 " Reamur");
           }
           break;
-        default:
       }
     });
   }
 
-  konfersi() {
-    // print("Tombol di klik");
-    //  set state
-    setState(() {
-      inputUser = double.parse(etInput.text);
-      reamur = 4 / 5 * inputUser;
-      farenheit = 9 / 5 * inputUser + 32;
-      kelvin = inputUser + 273;
-    });
-  }
-
-  _onDropdownChanged(String value) {
+  onDropdownChanged(String value) {
     setState(() {
       selectedDropdown = value;
     });
@@ -84,87 +71,68 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Konverter Suhu"),
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        body: Container(
-          margin: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              InputSuhu(etInput: etInput),
-              // 3 buat dropdown biasa
-              DropdownButton(
-                items: listSatuanSuhu.map((String value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                value: selectedDropdown,
-                onChanged: _onDropdownChanged(toString()),
-                isExpanded: true,
-              ),
-              // DropdownMenuItem(
-              //   child: Text("Kelvin"),
-              //   value: "Kelvin",
-              // ),
-              // DropdownMenuItem(
-              //   child: Text("Reamur"),
-              //   value: "Reamur",
-              // ),
-              // ],
-              // value: "Kelvin",
-              // onChanged: (value) {},
-              // isExpanded: true,
-              // ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ResultSuhu(
-                    result: _result,
-                  ),
-                ],
-              ),
-
-              Convert(konvertHandler: _konversiSuhu),
-              Expanded(
-                child: ListView(
-                  children: [
-                    Container(
-                      child: Text(
-                        "Item 1",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        "Item 1",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        "Item 1",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Konverter Suhu"),
           ),
-        ),
-      ),
-    );
+          body: Container(
+            margin: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                InputSuhu(etInput: etInput),
+                //3 buat dropdown biasa
+                DropdownSuhu(
+                  listSatuanSuhu: listSatuanSuhu,
+                  selectedDropdown: selectedDropdown,
+                  onDropdownChanged: onDropdownChanged,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ResultSuhu(
+                        result: _result,
+                      ),
+                    ],
+                  ),
+                ),
+                Convert(konvertHandler: _konversiSuhu),
+                Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Riwayat Konversi ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: listHasil.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Text(listHasil[index]),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
