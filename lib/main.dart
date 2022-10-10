@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:belajar3_flutter/convert.dart';
 import 'package:belajar3_flutter/dropdownsuhu.dart';
+import 'package:belajar3_flutter/history.dart';
 import 'package:belajar3_flutter/inputsuhu.dart';
 import 'package:belajar3_flutter/resultsuhu.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
 
   _konversiSuhu() {
     setState(() {
-      print(listHasil.length);
+      // print(listHasil.length);
       _inputUser = double.parse(etInput.text);
       switch (selectedDropdown) {
         case "kelvin":
@@ -61,6 +62,20 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
+
+  // _konversiSuhu() {
+  //   setState(() {
+  //     if (etInput.text.isNotEmpty) {
+  //       _inputUser = double.parse(etInput.text);
+  //     }
+  //     if (listSatuanSuhu == "kelvin") {
+  //       _result = _inputUser + 273;
+  //     }
+  //     if (listSatuanSuhu == "reamur") {
+  //       _result = _inputUser + 0.8;
+  //     }
+  //   });
+  // }
 
   onDropdownChanged(String value) {
     setState(() {
@@ -120,16 +135,7 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: listHasil.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: Text(listHasil[index]),
-                      );
-                    },
-                  ),
-                ),
+                history(listHasil: listHasil),
               ],
             ),
           ),
