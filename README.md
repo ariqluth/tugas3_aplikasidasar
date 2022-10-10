@@ -1,16 +1,12 @@
-# belajar3_flutter
+# tugas3_aplikasidasar
 
 A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Tugas Flutter 3 membuat konveter suhu dengan list  
+# Hasil jadi 
 
-A few resources to get you started if this is your first Flutter project:
+![Screenshot_245](https://user-images.githubusercontent.com/17227515/194807016-1ea80f15-9daf-459b-add9-f61c6a93793d.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
